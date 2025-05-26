@@ -931,6 +931,7 @@ def is_importable(module_name: str, module_path: Path) -> bool:
         # sys.meta_path to be able to pass the path of the module that we want to import (``meta_importer.find_spec``).
         # Using importlib.util.find_spec() is different, it gives the same results as trying to import
         # the module normally in the REPL.
+        print(f"  {sys.path=}")
         spec = importlib.util.find_spec(module_name)
         print(f"  FOUND SPEC {module_name=} {spec=}")
     except (ImportError, ValueError, ImportWarning) as e:
