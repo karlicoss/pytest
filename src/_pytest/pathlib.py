@@ -747,6 +747,8 @@ def spec_matches_module_path(module_spec: ModuleSpec | None, module_path: Path) 
         print(f"    {module_spec=}")
         print(f"    {module_spec.origin=} {type(module_spec.origin)=}")
         print(f"    {Path(module_spec.origin)=}")
+        print(f"    {Path(module_spec.origin)=}")
+        print(f"    {Path(module_spec.origin).resolve()=}")
         print(f"    {module_path=}")
         return Path(module_spec.origin) == module_path
 
