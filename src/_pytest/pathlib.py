@@ -881,13 +881,19 @@ def resolve_pkg_root_and_module_name(
     """
     pkg_root: Path | None = None
     pkg_path = resolve_package_path(path)
+    print(f"AAAAA {pkg_path=}")
     if pkg_path is not None:
         pkg_root = pkg_path.parent
     if consider_namespace_packages:
         start = pkg_root if pkg_root is not None else path.parent
+        print(f"START {start=}")
         for candidate in (start, *start.parents):
+            print(f"CANDIDATE {candidate=}")
             module_name = compute_module_name(candidate, path)
-            if module_name and is_importable(module_name, path):
+            print(f"MODULE NAME {module_name=}")
+            isimp = is_importable(module_name, path)
+            print(f"ISIMP {isimp=}")
+            if module_name and isimp:
                 # Point the pkg_root to the root of the namespace package.
                 pkg_root = candidate
                 break
