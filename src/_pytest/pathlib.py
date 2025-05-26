@@ -926,10 +926,14 @@ def is_importable(module_name: str, module_path: Path) -> bool:
         # Using importlib.util.find_spec() is different, it gives the same results as trying to import
         # the module normally in the REPL.
         spec = importlib.util.find_spec(module_name)
-    except (ImportError, ValueError, ImportWarning):
+        print(f"  FOUND SPEC {module_name=} {spec=}")
+    except (ImportError, ValueError, ImportWarning) as e:
+        print("  EXCEPTION: ", e)
         return False
     else:
-        return spec_matches_module_path(spec, module_path)
+        matches = spec_matches_module_path(spec, module_path)
+        print("  MATCHES", matches)
+        return matches
 
 
 def compute_module_name(root: Path, module_path: Path) -> str | None:
