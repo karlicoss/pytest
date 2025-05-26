@@ -569,6 +569,9 @@ def import_path(
         pkg_root, module_name = resolve_pkg_root_and_module_name(
             path, consider_namespace_packages=consider_namespace_packages
         )
+        print()
+        print(f"RESOLVED: {pkg_root=} {module_name=} {path=} {consider_namespace_packages=}")
+        print()
     except CouldNotResolvePathError:
         pkg_root, module_name = path.parent, path.stem
 
