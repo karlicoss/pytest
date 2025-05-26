@@ -744,6 +744,10 @@ def spec_matches_module_path(module_spec: ModuleSpec | None, module_path: Path) 
         return False
 
     if module_spec.origin:
+        print(f"    {module_spec=}")
+        print(f"    {module_spec.origin=} {type(module_spec.origin)=}")
+        print(f"    {Path(module_spec.origin)=}")
+        print(f"    {module_path=}")
         return Path(module_spec.origin) == module_path
 
     # Compare the path with the `module_spec.submodule_Search_Locations` in case
