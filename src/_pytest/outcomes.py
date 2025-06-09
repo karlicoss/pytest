@@ -135,41 +135,52 @@ def exit(
     raise Exit(reason, returncode)
 
 
-@_with_exception(Skipped)
-def skip(
-    reason: str = "",
-    *,
-    allow_module_level: bool = False,
-) -> NoReturn:
-    """Skip an executing test with the given message.
+class _Skip:
+    Exception = Skipped
 
-    This function should be called only during testing (setup, call or teardown) or
-    during collection by using the ``allow_module_level`` flag.  This function can
-    be called in doctests as well.
+    def __call__(self, reason: str = "", allow_module_level: bool = False) -> NoReturn:
+        __tracebackhide__ = True
+        raise Skipped(msg=reason, allow_module_level=allow_module_level)
 
-    :param reason:
-        The message to show the user as reason for the skip.
 
-    :param allow_module_level:
-        Allows this function to be called at module level.
-        Raising the skip exception at module level will stop
-        the execution of the module and prevent the collection of all tests in the module,
-        even those defined before the `skip` call.
+skip = _Skip()
 
-        Defaults to False.
 
-    :raises pytest.skip.Exception:
-        The exception that is raised.
-
-    .. note::
-        It is better to use the :ref:`pytest.mark.skipif ref` marker when
-        possible to declare a test to be skipped under certain conditions
-        like mismatching platforms or dependencies.
-        Similarly, use the ``# doctest: +SKIP`` directive (see :py:data:`doctest.SKIP`)
-        to skip a doctest statically.
-    """
-    __tracebackhide__ = True
-    raise Skipped(msg=reason, allow_module_level=allow_module_level)
+# @_with_exception(Skipped)
+# def skip(
+#     reason: str = "",
+#     *,
+#     allow_module_level: bool = False,
+# ) -> NoReturn:
+#     """Skip an executing test with the given message.
+#
+#     This function should be called only during testing (setup, call or teardown) or
+#     during collection by using the ``allow_module_level`` flag.  This function can
+#     be called in doctests as well.
+#
+#     :param reason:
+#         The message to show the user as reason for the skip.
+#
+#     :param allow_module_level:
+#         Allows this function to be called at module level.
+#         Raising the skip exception at module level will stop
+#         the execution of the module and prevent the collection of all tests in the module,
+#         even those defined before the `skip` call.
+#
+#         Defaults to False.
+#
+#     :raises pytest.skip.Exception:
+#         The exception that is raised.
+#
+#     .. note::
+#         It is better to use the :ref:`pytest.mark.skipif ref` marker when
+#         possible to declare a test to be skipped under certain conditions
+#         like mismatching platforms or dependencies.
+#         Similarly, use the ``# doctest: +SKIP`` directive (see :py:data:`doctest.SKIP`)
+#         to skip a doctest statically.
+#     """
+#     __tracebackhide__ = True
+#     raise Skipped(msg=reason, allow_module_level=allow_module_level)
 
 
 @_with_exception(Failed)
